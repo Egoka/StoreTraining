@@ -12,6 +12,11 @@ const server = http.createServer((request,response)=>{
         response.end()
     }
     else if (request.method === 'POST'){
+        response.writeHead(200, {'Content-Type': `text/html; charset=utf-8`})
+        const body = []
+        request.on('data', data => {
+            body.push(Buffer.from(data))
+        })
     }
 })
 server.listen(3000,()=>{
