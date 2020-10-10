@@ -17,6 +17,12 @@ const server = http.createServer((request,response)=>{
         request.on('data', data => {
             body.push(Buffer.from(data))
         })
+        request.on('end',()=>{
+            console.log(body.toString())
+            const massage = body.toString().split('=')[1]
+            response.write(`<h2>Ваше сообщение: ${massage}</h2>`)
+            response.end()
+        })
     }
 })
 server.listen(3000,()=>{
