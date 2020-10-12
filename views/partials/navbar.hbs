@@ -1,0 +1,22 @@
+<nav>
+    <div class="nav-wrapper">
+        <a href="#" class="brand-logo">Store</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+            {{#if isStart}}
+                <li class="active"><a href="/">Главная страница</a></li>
+            {{else}}
+                <li><a href="/">Главная страница</a></li>
+            {{/if}}
+            {{#if isProducts}}
+                <li class="active"><a href="/products">Продукты</a></li>
+            {{else}}
+                <li><a href="/products">Продукты</a></li>
+            {{/if}}
+            {{#if isArea}}
+                <li class="active"><a href="/personalArea">Личный кабинет</a></li>
+            {{else}}
+                <li><a href="/personalArea">Личный кабинет</a></li>
+            {{/if}}
+        </ul>
+    </div>
+</nav>

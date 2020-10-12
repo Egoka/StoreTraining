@@ -1,6 +1,7 @@
 const express = require('express')
-const path = require('path')
 const exps = require('express-handlebars')
+const {routerStart, routerProducts, routerPersonalArea} = require('./crs/pages')
+
 const app = express()
 const hbs = exps.create({
     defaultLayout: 'main',
@@ -11,12 +12,10 @@ app.engine('hbs', hbs.engine)
 app.set('view engine', 'hbs')
 app.set('views', 'views')
 
-app.get('/',(req, res) => {
-    res.render('index')
-})
-app.get('/about',(req, res) => {
-    res.render('about')
-})
+app.use(express.static('styles'))
+app.use('/',routerStart)
+app.use('/products',routerProducts)
+app.use('/personalArea',routerPersonalArea)
 
 const PORT = process.env.PORT || 3000
 
