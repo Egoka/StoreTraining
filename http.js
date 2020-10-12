@@ -11,11 +11,24 @@ app.engine('hbs', hbs.engine)
 app.set('view engine', 'hbs')
 app.set('views', 'views')
 
+app.use(express.static('styles'))
 app.get('/',(req, res) => {
-    res.render('index')
+    res.render('index', {
+        title: 'Стартовая страница',
+        isStart: true
+    })
 })
-app.get('/about',(req, res) => {
-    res.render('about')
+app.get('/products',(req, res) => {
+    res.render('products',{
+        title: 'Продукты',
+        isProducts: true
+    })
+})
+app.get('/personalArea',(req, res) => {
+    res.render('personalArea',{
+        title: 'Личный кабинет',
+        isArea: true
+    })
 })
 
 const PORT = process.env.PORT || 3000
