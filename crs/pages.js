@@ -1,4 +1,5 @@
 const {Router} = require('express')
+const Product = require('../models/product')
 const routerStart = Router()
 const routerProducts = Router()
 const routerPersonalArea = Router()
@@ -21,8 +22,10 @@ routerPersonalArea.get('/',(req, res) => {
         isArea: true
     })
 })
-routerPersonalArea.post('/',(req, res) => {
-    console.log(req.body)
+routerPersonalArea.post('/',async (req, res) => {
+    const product = new Product(req.body.title, req.body.price, req.body.img)
+    await product.save()
+    res.redirect('/products')
 })
 
 module.exports = {routerStart, routerProducts, routerPersonalArea}
