@@ -21,5 +21,8 @@ routerPersonalArea.get('/',(req, res) => {
         isArea: true
     })
 })
+routerPersonalArea.post('/',(req, res) => {
+    console.log(req.body)
+})
 
 module.exports = {routerStart, routerProducts, routerPersonalArea}
