@@ -10,10 +10,12 @@ routerStart.get('/',(req, res) => {
         isStart: true
     })
 })
-routerProducts.get('/',(req, res) => {
+routerProducts.get('/',async (req, res) => {
+    const product = await Product.getAll()
     res.render('products',{
         title: 'Продукты',
-        isProducts: true
+        isProducts: true,
+        product
     })
 })
 routerPersonalArea.get('/',(req, res) => {
