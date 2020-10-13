@@ -1,5 +1,5 @@
-<h1>Products page</h1>
-<a href="/">Start page</a>
+<h1>Каталог продуктов</h1>
+<a href="/">Начальная страница</a>
 {{#if product.length}}
     {{#each product}}
     <div class="row">
@@ -14,6 +14,7 @@
                 </div>
                 <div class="card-action">
                     <a href="/products/{{id}}" target="_blank">Посмотреть продукт</a>
+                    <a href="/products/{{id}}/edit?allow=true" target="_blank">Редактировать</a>
                 </div>
             </div>
         </div>

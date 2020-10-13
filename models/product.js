@@ -14,6 +14,24 @@ class Product{
         img: this.img,
         id: this.id }
     }
+    static async update(product){
+        const productsList = await Product.getAll()
+        const indexProduct = productsList.findIndex(prod=>prod.id === product.id)
+        productsList[indexProduct] = product
+        return new Promise((resolve, reject)=>{
+            fs.writeFile(
+                path.join(__dirname, '..', 'crs', 'data', 'product.json'),
+                JSON.stringify(productsList),
+                (err)=>{
+                    if(err) {
+                        reject(err)
+                    }else {
+                        resolve()
+                    }
+                }
+            )
+        })
+    }
     async save(){
         const product = await Product.getAll()
         product.push(this.toJSON())

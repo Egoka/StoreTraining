@@ -10,6 +10,7 @@ routerStart.get('/',(req, res) => {
         isStart: true
     })
 })
+/////////////////////////////////////////////////
 routerProducts.get('/',async (req, res) => {
     const product = await Product.getAll()
     res.render('products',{
@@ -17,6 +18,20 @@ routerProducts.get('/',async (req, res) => {
         isProducts: true,
         product
     })
+})
+routerProducts.get('/:id/edit', async (req, res)=>{
+    if(!req.query.allow){
+        return res.redirect('/')
+    }
+    const product = await Product.getByID(req.params.id)
+    res.render('productEdit',{
+        title:`Редактировать ${product.title}`,
+        product
+    })
+})
+routerProducts.post('/edit', async (req, res)=>{
+    await Product.update(req.body)
+    res.redirect('/products')
 })
 routerProducts.get('/:id', async (req, res)=>{
     const product = await Product.getByID(req.params.id)
@@ -26,6 +41,7 @@ routerProducts.get('/:id', async (req, res)=>{
         product
     })
 })
+/////////////////////////////////////////////////
 routerPersonalArea.get('/',(req, res) => {
     res.render('personalArea',{
         title: 'Личный кабинет',
@@ -37,5 +53,5 @@ routerPersonalArea.post('/',async (req, res) => {
     await product.save()
     res.redirect('/products')
 })
-
+/////////////////////////////////////////////////
 module.exports = {routerStart, routerProducts, routerPersonalArea}
