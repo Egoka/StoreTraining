@@ -46,6 +46,10 @@ class Product{
             )
         })
     }
+    static async getByID(id){
+        const products = await Product.getAll()
+        return products.find(product=>product.id === id)
+    }
 }
 
 module.exports = Product

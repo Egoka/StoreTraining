@@ -18,6 +18,13 @@ routerProducts.get('/',async (req, res) => {
         product
     })
 })
+routerProducts.get('/:id', async (req, res)=>{
+    const product = await Product.getByID(req.params.id)
+    res.render('product',{
+        title:`${product.title}`,
+        product
+    })
+})
 routerPersonalArea.get('/',(req, res) => {
     res.render('personalArea',{
         title: 'Личный кабинет',
