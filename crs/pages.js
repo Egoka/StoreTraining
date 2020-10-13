@@ -21,6 +21,7 @@ routerProducts.get('/',async (req, res) => {
 routerProducts.get('/:id', async (req, res)=>{
     const product = await Product.getByID(req.params.id)
     res.render('product',{
+        layout: 'empty',
         title:`${product.title}`,
         product
     })
