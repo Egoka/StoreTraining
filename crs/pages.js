@@ -61,6 +61,10 @@ routerCard.post('/add', async (req, res)=>{
     await Pay.add(product)
     res.redirect('/pay')
 })
+routerCard.delete('/remove/:id', async (req,res)=>{
+    const pay = await Pay.remove(req.params.id)
+    res.json(pay)
+})
 routerCard.get('/', async (req, res)=>{
     const pay = await Pay.fetch()
     res.render('pay',{
