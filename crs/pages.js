@@ -1,8 +1,10 @@
 const {Router} = require('express')
 const Product = require('../models/product')
+const Pay = require('../models/pay')
 const routerStart = Router()
 const routerProducts = Router()
 const routerPersonalArea = Router()
+const routerCard = Router()
 
 routerStart.get('/',(req, res) => {
     res.render('index', {
@@ -54,4 +56,23 @@ routerPersonalArea.post('/',async (req, res) => {
     res.redirect('/products')
 })
 /////////////////////////////////////////////////
-module.exports = {routerStart, routerProducts, routerPersonalArea}
+routerCard.post('/add', async (req, res)=>{
+    const product = await Product.getByID(req.body.id)
+    await Pay.add(product)
+    res.redirect('/pay')
+})
+routerCard.delete('/remove/:id', async (req,res)=>{
+    const pay = await Pay.remove(req.params.id)
+    res.json(pay)
+})
+routerCard.get('/', async (req, res)=>{
+    const pay = await Pay.fetch()
+    res.render('pay',{
+        title: 'Корзина',
+        isPay: true,
+        products: pay.products,
+        priceProduct: pay.price
+    })
+})
+/////////////////////////////////////////////////
+module.exports = {routerStart, routerProducts, routerPersonalArea, routerCard}
