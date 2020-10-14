@@ -17,6 +17,11 @@
             {{else}}
                 <li><a href="/personalArea">Личный кабинет</a></li>
             {{/if}}
+            {{#if isPay}}
+                <li class="active"><a href="/pay">Корзина</a></li>
+            {{else}}
+                <li><a href="/pay">Корзина</a></li>
+            {{/if}}
         </ul>
     </div>
 </nav>

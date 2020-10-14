@@ -1,6 +1,6 @@
 const express = require('express')
 const exps = require('express-handlebars')
-const {routerStart, routerProducts, routerPersonalArea} = require('./crs/pages')
+const {routerStart, routerProducts, routerPersonalArea, routerCard} = require('./crs/pages')
 
 const app = express()
 const hbs = exps.create({
@@ -17,6 +17,7 @@ app.use(express.urlencoded({extended:true}))
 app.use('/',routerStart)
 app.use('/products',routerProducts)
 app.use('/personalArea',routerPersonalArea)
+app.use('/pay',routerCard)
 
 const PORT = process.env.PORT || 3000
 
