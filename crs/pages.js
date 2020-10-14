@@ -67,7 +67,7 @@ routerCard.get('/', async (req, res)=>{
         title: 'Корзина',
         isPay: true,
         products: pay.products,
-        price: pay.price
+        priceProduct: pay.price
     })
 })
 /////////////////////////////////////////////////

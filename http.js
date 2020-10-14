@@ -1,5 +1,6 @@
 const express = require('express')
 const exps = require('express-handlebars')
+const path = require('path')
 const {routerStart, routerProducts, routerPersonalArea, routerCard} = require('./crs/pages')
 
 const app = express()
@@ -12,7 +13,7 @@ app.engine('hbs', hbs.engine)
 app.set('view engine', 'hbs')
 app.set('views', 'views')
 
-app.use(express.static('styles'))
+app.use(express.static(path.join(__dirname,'styles')))
 app.use(express.urlencoded({extended:true}))
 app.use('/',routerStart)
 app.use('/products',routerProducts)
