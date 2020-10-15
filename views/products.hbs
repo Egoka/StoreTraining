@@ -13,10 +13,10 @@
                     <p class="price">{{price}}</p>
                 </div>
                 <div class="card-action action-pay">
-                    <a href="/products/{{id}}" target="_blank">Посмотреть продукт</a>
-                    <a href="/products/{{id}}/edit?allow=true" target="_blank">Редактировать</a>
+                    <a href="/products/{{_id}}" target="_blank">Посмотреть продукт</a>
+                    <a href="/products/{{_id}}/edit?allow=true">Редактировать</a>
                     <form action="/pay/add" method="post">
-                        <input type="hidden" name="id" value="{{id}}">
+                        <input type="hidden" name="id" value="{{_id}}">
                         <button class="btn btn-primaty">Купить</button>
                     </form>
                 </div>

@@ -24,7 +24,10 @@ app.use('/pay',routerCard)
 const PORT = process.env.PORT || 3000
 async function start(){
     try {
-        await mongoose.connect(URL, {useNewUrlParser: true,useUnifiedTopology: true})
+        await mongoose.connect(URL, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+            useFindAndModify: false})
         app.listen(3000, () => {
             console.log(`Server is running on port ${PORT}`)
         })

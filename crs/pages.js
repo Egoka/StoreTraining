@@ -14,7 +14,7 @@ routerStart.get('/',(req, res) => {
 })
 /////////////////////////////////////////////////
 routerProducts.get('/',async (req, res) => {
-    const product = await Product.getAll()
+    const product = await Product.find().lean()
     res.render('products',{
         title: 'Продукты',
         isProducts: true,
@@ -25,18 +25,20 @@ routerProducts.get('/:id/edit', async (req, res)=>{
     if(!req.query.allow){
         return res.redirect('/')
     }
-    const product = await Product.getByID(req.params.id)
+    const product = await Product.findById(req.params.id).lean()
     res.render('productEdit',{
         title:`Редактировать ${product.title}`,
         product
     })
 })
 routerProducts.post('/edit', async (req, res)=>{
-    await Product.update(req.body)
+    const {id} =req.body
+    delete req.body.id
+    await Product.findByIdAndUpdate(id, req.body)
     res.redirect('/products')
 })
 routerProducts.get('/:id', async (req, res)=>{
-    const product = await Product.getByID(req.params.id)
+    const product = await Product.findById(req.params.id).lean()
     res.render('product',{
         layout: 'empty',
         title:`${product.title}`,
@@ -51,9 +53,16 @@ routerPersonalArea.get('/',(req, res) => {
     })
 })
 routerPersonalArea.post('/',async (req, res) => {
-    const product = new Product(req.body.title, req.body.price, req.body.img)
-    await product.save()
-    res.redirect('/products')
+    const product = new Product({
+        title:req.body.title,
+        price:req.body.price,
+        img: req.body.img})
+    try {
+        await product.save()
+        res.redirect('/products')
+    }catch(arr){
+        console.log(err)
+    }
 })
 /////////////////////////////////////////////////
 routerCard.post('/add', async (req, res)=>{
