@@ -1,0 +1,20 @@
+<h1>Добавле новый продукт</h1>
+<a href="/">Начальная страница</a>
+<form action="/personalArea" method="post">
+    <div class="input-field">
+        <input id="title" name="title" type="text" class="validate" required>
+        <label for="title">Название продукта</label>
+        <span class="helper-text" data-error="Введите название" ></span>
+    </div>
+    <div class="input-field">
+        <input id="price" name="price" type="number" class="validate" required min="1">
+        <label for="price">Стоимость продукта</label>
+        <span class="helper-text" data-error="Введите стоимость"></span>
+    </div>
+    <div class="input-field">
+        <input id="img" name="img" type="text" class="validate" required>
+        <label for="img">URL картинки</label>
+        <span class="helper-text" data-error="Введите URL"></span>
+    </div>
+    <button class="btn btn-primary">Добаавить продукт</button>
+</form>

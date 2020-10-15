@@ -1,0 +1,29 @@
+<h1>Каталог продуктов</h1>
+<a href="/">Начальная страница</a>
+{{#if product.length}}
+    {{#each product}}
+    <div class="row">
+        <div class="col s6 offset-s3">
+            <div class="card">
+                <div class="card-image">
+                    <img src="{{img}}" alt="{{title}}">
+                </div>
+                <div class="card-content">
+                    <span class="card-title">{{title}}</span>
+                    <p class="price">{{price}}</p>
+                </div>
+                <div class="card-action action-pay">
+                    <a href="/products/{{id}}" target="_blank">Посмотреть продукт</a>
+                    <a href="/products/{{id}}/edit?allow=true" target="_blank">Редактировать</a>
+                    <form action="/pay/add" method="post">
+                        <input type="hidden" name="id" value="{{id}}">
+                        <button class="btn btn-primaty">Купить</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{/each}}
+{{else}}
+    <p>Продуктов пока нет.</p>
+{{/if}}
