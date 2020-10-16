@@ -1,0 +1,21 @@
+<h1>Отредактируйте {{product.title}}</h1>
+<a href="/">Начальная страница</a>
+<form action="/products/edit" method="post">
+    <div class="input-field">
+        <input id="title" name="title" type="text" class="validate" required value="{{product.title}}">
+        <label for="title">Название продукта</label>
+        <span class="helper-text" data-error="Введите название" ></span>
+    </div>
+    <div class="input-field">
+        <input id="price" name="price" type="number" class="validate" required min="1" value="{{product.price}}">
+        <label for="price">Стоимость продукта</label>
+        <span class="helper-text" data-error="Введите стоимость"></span>
+    </div>
+    <div class="input-field">
+        <input id="img" name="img" type="text" class="validate" required value="{{product.img}}">
+        <label for="img">URL картинки</label>
+        <span class="helper-text" data-error="Введите URL"></span>
+    </div>
+    <input type="hidden" name="id" value="{{product._id}}">
+    <button class="btn btn-primary">Редактировать продукт</button>
+</form>
