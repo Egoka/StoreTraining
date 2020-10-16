@@ -37,6 +37,14 @@ routerProducts.post('/edit', async (req, res)=>{
     await Product.findByIdAndUpdate(id, req.body)
     res.redirect('/products')
 })
+routerProducts.post('/remove', async (req, res)=> {
+    try {
+        await Product.deleteOne({_id: req.body.id})
+        res.redirect('/products')
+    } catch (arr) {
+        console.log(err)
+    }
+})
 routerProducts.get('/:id', async (req, res)=>{
     const product = await Product.findById(req.params.id).lean()
     res.render('product',{
