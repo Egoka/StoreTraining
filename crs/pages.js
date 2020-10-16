@@ -56,7 +56,9 @@ routerPersonalArea.post('/',async (req, res) => {
     const product = new Product({
         title:req.body.title,
         price:req.body.price,
-        img: req.body.img})
+        img: req.body.img,
+        userId: req.user
+    })
     try {
         await product.save()
         res.redirect('/products')
