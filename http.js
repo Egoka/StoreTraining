@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const URL = require('./password')
 const exps = require('express-handlebars')
 const path = require('path')
-const {routerStart, routerProducts, routerPersonalArea, routerCard} = require('./crs/pages')
+const {routerStart, routerProducts, routerPersonalArea, routerCard, routerOrders} = require('./crs/pages')
 const app = express()
 const hbs = exps.create({
     defaultLayout: 'main',
@@ -20,6 +20,7 @@ app.use('/',routerStart)
 app.use('/products',routerProducts)
 app.use('/personalArea',routerPersonalArea)
 app.use('/pay',routerCard)
+app.use('/orders',routerOrders)
 
 const PORT = process.env.PORT || 3000
 async function start(){

@@ -1,10 +1,12 @@
 const {Router} = require('express')
 const Product = require('../models/product')
 const Pay = require('../models/pay')
+const Order = require('../models/order')
 const routerStart = Router()
 const routerProducts = Router()
 const routerPersonalArea = Router()
 const routerCard = Router()
+const routerOrders = Router()
 
 routerStart.get('/',(req, res) => {
     res.render('index', {
@@ -92,4 +94,23 @@ routerCard.get('/', async (req, res)=>{
     })
 })
 /////////////////////////////////////////////////
-module.exports = {routerStart, routerProducts, routerPersonalArea, routerCard}
+routerOrders.get('/',async (req,res)=>{
+    res.render('order',{
+        title: 'Заказы',
+        isOrders: true
+    })
+})
+routerOrders.post('/',async (req,res)=> {
+    try{
+        res.redirect('/orders')
+    }catch(err){
+        console.log(err)
+    }
+})
+/////////////////////////////////////////////////
+module.exports = {
+    routerStart,
+    routerProducts,
+    routerPersonalArea,
+    routerCard,
+    routerOrders}
