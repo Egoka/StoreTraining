@@ -43,4 +43,10 @@ user.methods.addToPay = function (product){
     this.basket = {items}
     return this.save()
 }
+user.method('toClient', function (){
+    const product = this.toObject()
+    product.id = product._id
+    delete product._id
+    return product
+})
 module.exports = model('User', user)

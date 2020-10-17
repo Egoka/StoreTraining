@@ -76,13 +76,26 @@ routerCard.delete('/remove/:id', async (req,res)=>{
     res.json(pay)
 })
 routerCard.get('/', async (req, res)=>{
-    const pay = await Pay.fetch()
+    const user = await req.user
+        .populate('basket.items.productId')
+        .execPopulate()
+    const pay = mapPayItems(user)
+    const price = sumPrice(pay)
     res.render('pay',{
         title: 'Корзина',
         isPay: true,
-        products: pay.products,
-        priceProduct: pay.price
+        products: pay,
+        priceProduct: price
     })
 })
+function mapPayItems(user){
+    return user.basket.items.map(prod=>({
+        ...prod.productId._doc,
+        id: prod.productId.id,
+        count:prod.count
+    }))}
+function sumPrice(pay) {
+    return pay.reduce((sum, pay)=>{ return sum += pay.price * pay.count},0)
+}
 /////////////////////////////////////////////////
 module.exports = {routerStart, routerProducts, routerPersonalArea, routerCard}

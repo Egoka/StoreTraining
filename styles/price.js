@@ -18,6 +18,7 @@ if ($pay){
                         const html = pay.products.map(prod=>{
                             return `<tr>
                                         <td>${prod.title}</td>
+                                        <td>${prod.price}</td>
                                         <td>${prod.count}</td>
                                         <td>
                                             <button class="btn btn-small js-remove"
