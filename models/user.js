@@ -64,4 +64,8 @@ user.method('toClient', function (){
     delete product._id
     return product
 })
+user.methods.clearBasket = function () {
+    this.basket = {items:[]}
+    return this.save()
+}
 module.exports = model('User', user)
