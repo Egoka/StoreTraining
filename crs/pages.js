@@ -95,13 +95,39 @@ routerCard.get('/', async (req, res)=>{
 })
 /////////////////////////////////////////////////
 routerOrders.get('/',async (req,res)=>{
-    res.render('order',{
-        title: 'Заказы',
-        isOrders: true
-    })
+    try{
+        const orders = await Order.find({'user.iserId':req.user._id})
+            .populate('user.iserId')
+        res.render('order', {
+            title: 'Заказы',
+            isOrders: true,
+            orders: orders.map(prod=>{
+                return{
+                    ...prod._doc,
+                    price: prod.products.reduce((sum, pay)=>{
+                        return sum += pay.product.price * pay.count}, 0)
+                }
+            })
+        })
+    }catch(err) {
+        console.log(err)
+    }
 })
 routerOrders.post('/',async (req,res)=> {
     try{
+        const user = await req.user
+            .populate('basket.items.productId')
+            .execPopulate()
+        const products = mapPayItems(user)
+        const order = new Order({
+            user: {
+                name: req.user.name,
+                userId: req.user
+            },
+            products: products
+        })
+        await order.save()
+        await req.user.clearBasket()
         res.redirect('/orders')
     }catch(err){
         console.log(err)
