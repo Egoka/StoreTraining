@@ -72,7 +72,13 @@ routerCard.post('/add', async (req, res)=>{
     res.redirect('/pay')
 })
 routerCard.delete('/remove/:id', async (req,res)=>{
-    const pay = await Pay.remove(req.params.id)
+    await req.user.removeFromCart(req.params.id)
+    const user = await req.user
+        .populate('basket.items.productId')
+        .execPopulate()
+    const products = mapPayItems(user)
+    const price = sumPrice(products)
+    const pay = {products,price}
     res.json(pay)
 })
 routerCard.get('/', async (req, res)=>{
