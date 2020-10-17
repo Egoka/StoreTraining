@@ -26,4 +26,42 @@ const user = new Schema({
         ]
     }
 })
+user.methods.addToPay = function (product){
+    const items = [...this.basket.items]
+    const index = items.findIndex(inx=>{
+        return inx.productId.toString() === product._id.toString()
+    })
+
+    if (index>=0){
+        items[index].count += 1
+    }else{
+        items.push({
+            productId: product._id,
+            count: 1
+        })
+    }
+    this.basket = {items}
+    return this.save()
+}
+user.methods.removeFromCart = function (id) {
+    let items = [...this.basket.items]
+    const index = items.findIndex(inx=>{
+        return inx.productId.toString() === id.toString()
+    })
+    if (items[index].count === 1){
+        items = items.filter(prod => {
+            return prod.productId.toString() !== id.toString()
+        })
+    }else{
+        items[index].count-=1
+    }
+    this.basket = {items}
+    return this.save()
+}
+user.method('toClient', function (){
+    const product = this.toObject()
+    product.id = product._id
+    delete product._id
+    return product
+})
 module.exports = model('User', user)

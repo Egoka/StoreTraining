@@ -1,6 +1,5 @@
 const {Router} = require('express')
 const Product = require('../models/product')
-const Pay = require('../models/pay')
 const routerStart = Router()
 const routerProducts = Router()
 const routerPersonalArea = Router()
@@ -68,22 +67,41 @@ routerPersonalArea.post('/',async (req, res) => {
 })
 /////////////////////////////////////////////////
 routerCard.post('/add', async (req, res)=>{
-    const product = await Product.getByID(req.body.id)
-    await Pay.add(product)
+    const product = await Product.findById(req.body.id)
+    await req.user.addToPay(product)
     res.redirect('/pay')
 })
 routerCard.delete('/remove/:id', async (req,res)=>{
-    const pay = await Pay.remove(req.params.id)
+    await req.user.removeFromCart(req.params.id)
+    const user = await req.user
+        .populate('basket.items.productId')
+        .execPopulate()
+    const products = mapPayItems(user)
+    const price = sumPrice(products)
+    const pay = {products,price}
     res.json(pay)
 })
 routerCard.get('/', async (req, res)=>{
-    const pay = await Pay.fetch()
+    const user = await req.user
+        .populate('basket.items.productId')
+        .execPopulate()
+    const pay = mapPayItems(user)
+    const price = sumPrice(pay)
     res.render('pay',{
         title: 'Корзина',
         isPay: true,
-        products: pay.products,
-        priceProduct: pay.price
+        products: pay,
+        priceProduct: price
     })
 })
+function mapPayItems(user){
+    return user.basket.items.map(prod=>({
+        ...prod.productId._doc,
+        id: prod.productId.id,
+        count:prod.count
+    }))}
+function sumPrice(pay) {
+    return pay.reduce((sum, pay)=>{ return sum += pay.price * pay.count},0)
+}
 /////////////////////////////////////////////////
 module.exports = {routerStart, routerProducts, routerPersonalArea, routerCard}
