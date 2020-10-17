@@ -26,4 +26,21 @@ const user = new Schema({
         ]
     }
 })
+user.methods.addToPay = function (product){
+    const items = [...this.basket.items]
+    const index = items.findIndex(inx=>{
+        return inx.productId.toString() === product._id.toString()
+    })
+
+    if (index>=0){
+        items[index].count += 1
+    }else{
+        items.push({
+            productId: product._id,
+            count: 1
+        })
+    }
+    this.basket = {items}
+    return this.save()
+}
 module.exports = model('User', user)

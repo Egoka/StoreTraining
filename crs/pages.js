@@ -1,6 +1,5 @@
 const {Router} = require('express')
 const Product = require('../models/product')
-const Pay = require('../models/pay')
 const routerStart = Router()
 const routerProducts = Router()
 const routerPersonalArea = Router()
@@ -68,8 +67,8 @@ routerPersonalArea.post('/',async (req, res) => {
 })
 /////////////////////////////////////////////////
 routerCard.post('/add', async (req, res)=>{
-    const product = await Product.getByID(req.body.id)
-    await Pay.add(product)
+    const product = await Product.findById(req.body.id)
+    await req.user.addToPay(product)
     res.redirect('/pay')
 })
 routerCard.delete('/remove/:id', async (req,res)=>{
