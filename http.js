@@ -3,8 +3,8 @@ const mongoose = require('mongoose')
 const URL = require('./password')
 const exps = require('express-handlebars')
 const path = require('path')
-const {routerStart, routerProducts, routerPersonalArea, routerCard} = require('./crs/pages')
 const User = require('./models/user')
+const {routerStart, routerProducts, routerPersonalArea, routerCard, routerOrders} = require('./crs/pages')
 const app = express()
 const hbs = exps.create({
     defaultLayout: 'main',
@@ -17,7 +17,7 @@ app.set('views', 'views')
 
 app.use(async (req,res,next)=>{
     try{
-        req.user = await User.findById('5f8a1bdbb2f5110484d75a53')
+        req.user = await User.findById('5f8c487ab6096b2384a32a38')
         next()
     }catch (err) {
         console.log(err)
@@ -30,6 +30,7 @@ app.use('/',routerStart)
 app.use('/products',routerProducts)
 app.use('/personalArea',routerPersonalArea)
 app.use('/pay',routerCard)
+app.use('/orders',routerOrders)
 
 const PORT = process.env.PORT || 3000
 async function start(){

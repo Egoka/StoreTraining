@@ -58,12 +58,7 @@ user.methods.removeFromCart = function (id) {
     this.basket = {items}
     return this.save()
 }
-user.method('toClient', function (){
-    const product = this.toObject()
-    product.id = product._id
-    delete product._id
-    return product
-})
+
 user.methods.clearBasket = function () {
     this.basket = {items:[]}
     return this.save()

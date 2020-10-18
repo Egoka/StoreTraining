@@ -17,5 +17,9 @@
         <span class="helper-text" data-error="Введите URL"></span>
     </div>
     <input type="hidden" name="id" value="{{product._id}}">
-    <button class="btn btn-primary">Редактировать продукт</button>
+    <button type="submit" class="btn btn-primary">Редактировать продукт</button>
+</form>
+<form action="/products/remove" method="post" class="product-form">
+    <input type="hidden" name="id" value="{{product._id}}">
+    <button class="btn red">Удалить продукт</button>
 </form>
