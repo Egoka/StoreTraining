@@ -3,8 +3,14 @@ const mongoose = require('mongoose')
 const URL = require('./password')
 const exps = require('express-handlebars')
 const path = require('path')
+
 const User = require('./models/user')
-const {routerStart, routerProducts, routerPersonalArea, routerCard, routerOrders} = require('./crs/pages')
+const start = require('./crs/start')
+const products = require('./crs/products')
+const personalArea = require('./crs/personalArea')
+const pay = require('./crs/pay')
+const orders = require('./crs/orders')
+const login = require('./crs/entry')
 const app = express()
 const hbs = exps.create({
     defaultLayout: 'main',
@@ -25,15 +31,16 @@ app.use(async (req,res,next)=>{
 })
 app.use(express.static(path.join(__dirname,'styles')))
 app.use(express.urlencoded({extended:true}))
-
-app.use('/',routerStart)
-app.use('/products',routerProducts)
-app.use('/personalArea',routerPersonalArea)
-app.use('/pay',routerCard)
-app.use('/orders',routerOrders)
+//paeg announcement
+app.use('/',start)
+app.use('/products',products)
+app.use('/personalArea',personalArea)
+app.use('/pay',pay)
+app.use('/orders',orders)
+app.use('/entry',login)
 
 const PORT = process.env.PORT || 3000
-async function start(){
+async function startProgram(){
     try {
         await mongoose.connect(URL, {
             useNewUrlParser: true,
@@ -53,4 +60,4 @@ async function start(){
     }catch(err){
         console.log(err)}
 }
-start()
+startProgram()
