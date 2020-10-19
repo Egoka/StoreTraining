@@ -20,4 +20,20 @@ router.get('/logout',async (req, res) => {
         res.redirect('/entry/login#login')
     })
 })
+router.post('/registration', async (req, res)=>{
+    try{
+        const {name, email, password, confirm} = req.body
+        if (await User.findOne({email})){
+            res.redirect('/entry/login#registration')
+        }else{
+            const user = new User({
+                name, email, password, basket:{items:[]}
+            })
+            await user.save()
+            res.redirect('/entry/login#login')
+        }
+    }catch(err){
+        console.log(err)
+    }
+})
 module.exports = router
