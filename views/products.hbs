@@ -14,11 +14,13 @@
                 </div>
                 <div class="card-action action-pay">
                     <a href="/products/{{_id}}" target="_blank">Посмотреть продукт</a>
-                    <a href="/products/{{_id}}/edit?allow=true">Редактировать</a>
-                    <form action="/pay/add" method="post">
-                        <input type="hidden" name="id" value="{{_id}}">
-                        <button class="btn btn-primaty">Купить</button>
-                    </form>
+                    {{#if @root.isEntry}}<!--from variables.js-->
+                        <a href="/products/{{_id}}/edit?allow=true">Редактировать</a>
+                        <form action="/pay/add" method="post">
+                            <input type="hidden" name="id" value="{{_id}}">
+                            <button class="btn btn-primaty">Купить</button>
+                        </form>
+                    {{/if}}
                 </div>
             </div>
         </div>

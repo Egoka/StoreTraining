@@ -1,12 +1,13 @@
 const {Router} = require('express')
 const Product = require('../models/product')
+const closedPage = require('../middleware/pageAccess')
 const router = Router()
-router.post('/add', async (req, res)=>{
+router.post('/add', closedPage,async (req, res)=>{
     const product = await Product.findById(req.body.id)
     await req.user.addToPay(product)
     res.redirect('/pay')
 })
-router.delete('/remove/:id', async (req,res)=>{
+router.delete('/remove/:id', closedPage, async (req,res)=>{
     await req.user.removeFromCart(req.params.id)
     const user = await req.user
         .populate('basket.items.productId')
@@ -16,7 +17,7 @@ router.delete('/remove/:id', async (req,res)=>{
     const pay = {products,price}
     res.json(pay)
 })
-router.get('/', async (req, res)=>{
+router.get('/', closedPage,async (req, res)=>{
     const user = await req.user
         .populate('basket.items.productId')
         .execPopulate()
