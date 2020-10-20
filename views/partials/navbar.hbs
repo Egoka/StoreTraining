@@ -12,25 +12,29 @@
             {{else}}
                 <li><a href="/products">Продукты</a></li>
             {{/if}}
-            {{#if isArea}}
-                <li class="active"><a href="/personalArea">Личный кабинет</a></li>
+            {{#if isEntry}}<!--from variables.js-->
+                {{#if isArea}}
+                    <li class="active"><a href="/personalArea">Личный кабинет</a></li>
+                {{else}}
+                    <li><a href="/personalArea">Личный кабинет</a></li>
+                {{/if}}
+                {{#if isPay}}
+                    <li class="active"><a href="/pay">Корзина</a></li>
+                {{else}}
+                    <li><a href="/pay">Корзина</a></li>
+                {{/if}}
+                {{#if isOrder}}
+                    <li class="active"><a href="/orders">Заказы</a></li>
+                {{else}}
+                    <li><a href="/orders">Заказы</a></li>
+                {{/if}}
+                <li><a href="/entry/logout">Выход</a></li>
             {{else}}
-                <li><a href="/personalArea">Личный кабинет</a></li>
-            {{/if}}
-            {{#if isPay}}
-                <li class="active"><a href="/pay">Корзина</a></li>
-            {{else}}
-                <li><a href="/pay">Корзина</a></li>
-            {{/if}}
-            {{#if isOrder}}
-                <li class="active"><a href="/orders">Заказы</a></li>
-            {{else}}
-                <li><a href="/orders">Заказы</a></li>
-            {{/if}}
-            {{#if isLogin}}
-                <li class="active"><a href="/entry/login">Вход</a></li>
-            {{else}}
-                <li><a href="/entry/login">Вход</a></li>
+                {{#if isLogin}}
+                    <li class="active"><a href="/entry/login">Вход</a></li>
+                {{else}}
+                    <li><a href="/entry/login">Вход</a></li>
+                {{/if}}
             {{/if}}
         </ul>
     </div>
