@@ -49,3 +49,4 @@ if ($pay){
         }
     })
 }
+M.Tabs.init(document.querySelectorAll('.tabs'));
