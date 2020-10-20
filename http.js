@@ -14,6 +14,7 @@ const pay = require('./crs/pay')
 const orders = require('./crs/orders')
 const login = require('./crs/entry')
 const varMid = require('./middleware/variables')
+const userMid = require('./middleware/userData')
 /////////////////////////////////////////////////
 const app = express()
 const hbs = exps.create({
@@ -40,6 +41,7 @@ app.use(session({
     store: storeSession
 }))
 app.use(varMid)
+app.use(userMid)
 //paeg announcement
 app.use('/',start)
 app.use('/products',products)

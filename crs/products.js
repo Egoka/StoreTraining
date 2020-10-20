@@ -1,5 +1,6 @@
 const {Router} = require('express')
 const Product = require('../models/product')
+const closedPage = require('../middleware/pageAccess')
 const router = Router()
 router.get('/',async (req, res) => {
     const product = await Product.find().lean()
@@ -9,7 +10,7 @@ router.get('/',async (req, res) => {
         product
     })
 })
-router.get('/:id/edit', async (req, res)=>{
+router.get('/:id/edit', closedPage,async (req, res)=>{
     if(!req.query.allow){
         return res.redirect('/')
     }
@@ -19,13 +20,13 @@ router.get('/:id/edit', async (req, res)=>{
         product
     })
 })
-router.post('/edit', async (req, res)=>{
+router.post('/edit', closedPage,async (req, res)=>{
     const {id} =req.body
     delete req.body.id
     await Product.findByIdAndUpdate(id, req.body)
     res.redirect('/products')
 })
-router.post('/remove', async (req, res)=> {
+router.post('/remove', closedPage,async (req, res)=> {
     try {
         await Product.deleteOne({_id: req.body.id})
         res.redirect('/products')
