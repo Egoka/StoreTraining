@@ -18,6 +18,7 @@
                         <a href="/products/{{_id}}/edit?allow=true">Редактировать</a>
                         <form action="/pay/add" method="post">
                             <input type="hidden" name="id" value="{{_id}}">
+                            <input type="hidden" name="_csrf" value="{{@root.csrf}}">
                             <button class="btn btn-primaty">Купить</button>
                         </form>
                     {{/if}}

@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const URL = require('./password')
 const exps = require('express-handlebars')
 const path = require('path')
+const csrf = require('csurf')
 const session =require('express-session')
 const MongoSession = require('connect-mongodb-session')(session)
 /////////////////////////////////////////////////
@@ -40,6 +41,7 @@ app.use(session({
     saveUninitialized: false,
     store: storeSession
 }))
+app.use(csrf())
 app.use(varMid)
 app.use(userMid)
 //paeg announcement
