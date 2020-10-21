@@ -7,6 +7,7 @@ const {URL_LOGIN_MONGO_DB:URL,
 const exps = require('express-handlebars')
 const path = require('path')
 const csrf = require('csurf')
+const flash = require('connect-flash')
 const session =require('express-session')
 const MongoSession = require('connect-mongodb-session')(session)
 /////////////////////////////////////////////////
@@ -45,6 +46,7 @@ app.use(session({
     store: storeSession
 }))
 app.use(csrf())
+app.use(flash())
 app.use(varMid)
 app.use(userMid)
 //paeg announcement

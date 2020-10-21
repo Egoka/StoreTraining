@@ -12,6 +12,12 @@ const user = new Schema({
         type: String,
         require:true
     },
+    resetToken:{
+        type: String
+    },
+    resetDate:{
+        type: Date
+    },
     basket:{
         items:[
             {
