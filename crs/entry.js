@@ -1,4 +1,5 @@
 const {Router} = require('express')
+const bcrypt = require('bcryptjs')
 const User = require('../models/user')
 const router = Router()
 router.get('/login',(req, res) => {
@@ -12,17 +13,21 @@ router.post('/login',async (req, res) => {
         const {email,password} = req.body
         const candidate = await User.findOne({email})
         if(candidate){
-            if(password === candidate.password){
+            if(await bcrypt.compare(password,candidate.password)){
                 req.session.user = candidate
+                req.session.emailError = false
+                req.session.passwordError = false
                 req.session.isAuthenticated = true
                 req.session.save(err=>{
                     if (err) throw err
                     res.redirect('/')
                 })
             }else{
+                req.session.passwordError = true
                 res.redirect('/entry/login#login')
             }
         }else{
+            req.session.emailError = true
             res.redirect('/entry/login#login')
         }
     }catch (err) {
@@ -39,13 +44,22 @@ router.post('/registration', async (req, res)=>{
     try{
         const {name, email, password, confirm} = req.body
         if (await User.findOne({email})){
+            req.session.emailErr = true
+            req.session.passwordErr = password !== confirm;
             res.redirect('/entry/login#registration')
         }else{
-            const user = new User({
-                name, email, password, basket:{items:[]}
-            })
-            await user.save()
-            res.redirect('/entry/login#login')
+            if (password !== confirm){
+                req.session.passwordErr = true
+                res.redirect('/entry/login#registration')
+            }else{
+                const user = new User({
+                    name, email, password:await bcrypt.hash(password,10), basket:{items:[]}
+                })
+                req.session.passwordErr = false
+                req.session.emailErr = false
+                await user.save()
+                res.redirect('/entry/login#login')
+            }
         }
     }catch(err){
         console.log(err)

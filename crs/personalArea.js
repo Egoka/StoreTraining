@@ -1,13 +1,14 @@
 const {Router} = require('express')
 const Product = require('../models/product')
+const closedPage = require('../middleware/pageAccess')
 const router = Router()
-router.get('/',(req, res) => {
+router.get('/', closedPage,(req, res) => {
     res.render('personalArea',{
         title: 'Личный кабинет',
         isArea: true
     })
 })
-router.post('/',async (req, res) => {
+router.post('/', closedPage,async (req, res) => {
     const product = new Product({
         title:req.body.title,
         price:req.body.price,
