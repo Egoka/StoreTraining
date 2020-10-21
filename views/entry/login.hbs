@@ -31,12 +31,15 @@
                         <span class="helper-text" data-error="password"></span>
                     {{/if}}
                 </div>
+                {{#if passwordError}}
+                    <p><a href="/entry/reset">Сбросить пароль</a></p>
+                {{/if}}
                 <input type="hidden" name="_csrf" value="{{csrf}}">
                 <button class="btn btn-primary"type="submit">Войти</button>
             </form>
         </div>
         <div id="registration" class="col s6 offset-s3">
-            <h3>Зарегестрироваться</h3>
+            <h3>Зарегистрироваться</h3>
             <form action="/entry/registration" method="post">
                 <div class="input-field">
                     <input id="reg-name" name="name" type="text" required>
@@ -46,7 +49,7 @@
                     {{#if emailErr}}
                         <input id="reg-email" name="email" type="email" class="validate invalid" required>
                         <label for="reg-email">Email</label>
-                        <span class="helper-text" data-error="Такой email уже зарегестрирован"></span>
+                        <span class="helper-text" data-error="Такой email уже зарегистрирован"></span>
                     {{else}}
                         <input id="reg-email" name="email" type="email" class="validate" required>
                         <label for="reg-email">Email</label>
@@ -70,7 +73,7 @@
                     {{/if}}
                 </div>
                 <input type="hidden" name="_csrf" value="{{csrf}}">
-                <button class="btn btn-primary"type="submit">Зарегестрироваться</button>
+                <button class="btn btn-primary"type="submit">Зарегистрироваться</button>
             </form>
         </div>
     </div>

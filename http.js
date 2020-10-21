@@ -1,9 +1,13 @@
 const express = require('express')
 const mongoose = require('mongoose')
-const URL = require('./password')
+const {URL_LOGIN_MONGO_DB:URL,
+       KEY_ENCRYPTION:keyEncry,
+       SEND_GRID_API_KEY:sendGrid
+      } = require('./password')
 const exps = require('express-handlebars')
 const path = require('path')
 const csrf = require('csurf')
+const flash = require('connect-flash')
 const session =require('express-session')
 const MongoSession = require('connect-mongodb-session')(session)
 /////////////////////////////////////////////////
@@ -36,12 +40,13 @@ app.use(express.static(path.join(__dirname,'styles')))
 app.use(express.urlencoded({extended:true}))
 //session setup
 app.use(session({
-    secret:'secret',
+    secret:keyEncry,
     resave: false,
     saveUninitialized: false,
     store: storeSession
 }))
 app.use(csrf())
+app.use(flash())
 app.use(varMid)
 app.use(userMid)
 //paeg announcement
