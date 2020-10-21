@@ -31,6 +31,9 @@
                         <span class="helper-text" data-error="password"></span>
                     {{/if}}
                 </div>
+                {{#if passwordError}}
+                    <p><a href="/entry/reset">Сбросить пароль</a></p>
+                {{/if}}
                 <input type="hidden" name="_csrf" value="{{csrf}}">
                 <button class="btn btn-primary"type="submit">Войти</button>
             </form>
