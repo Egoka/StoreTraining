@@ -1,6 +1,9 @@
 const express = require('express')
 const mongoose = require('mongoose')
-const URL = require('./password')
+const {URL_LOGIN_MONGO_DB:URL,
+       KEY_ENCRYPTION:keyEncry,
+       SEND_GRID_API_KEY:sendGrid
+      } = require('./password')
 const exps = require('express-handlebars')
 const path = require('path')
 const csrf = require('csurf')
@@ -36,7 +39,7 @@ app.use(express.static(path.join(__dirname,'styles')))
 app.use(express.urlencoded({extended:true}))
 //session setup
 app.use(session({
-    secret:'secret',
+    secret:keyEncry,
     resave: false,
     saveUninitialized: false,
     store: storeSession
