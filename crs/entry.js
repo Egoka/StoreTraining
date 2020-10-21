@@ -6,6 +6,7 @@ const sendgrid = require('nodemailer-sendgrid-transport')
 const User = require('../models/user')
 const regEmail = require('../email/registrationEmail')
 const resetPassword = require('../email/resetPassword')
+const closedPage = require('../middleware/pageAccess')
 const {SEND_GRID_API_KEY} = require('../password')
 const router = Router()
 const transporter = nodemailer.createTransport(sendgrid({
@@ -101,6 +102,54 @@ router.post('/reset',(req,res)=>{
                 res.redirect('/entry/reset')
             }
         })
+    }catch(err){
+        console.log(err)
+    }
+})
+router.get('/password/:token', closedPage,async(req,res) =>{
+    if(!req.params.token) res.redirect('/entry/login')
+    try{
+        const user = await User.findOne({
+            resetToken: req.params.token,
+            resetDate: {$gt:Date.now()}
+        })
+        if(!user) res.redirect('/entry/login#registration')
+        else{
+            res.render('entry/password',{
+                title: 'Восстановить доступ',
+                error: req.flash('error'),
+                userId: user._id.toString(),
+                token: req.params.token
+            })
+        }
+    }catch(err){
+        console.log(err)
+    }
+})
+router.post('/password', closedPage, async(req,res)=>{
+    try{
+        const user = await User.findOne({
+            _id: req.body.userId,
+            resetToken: req.body.token,
+            resetDate: {$gt: Date.now()}
+        })
+        console.log(user)
+        if(user){
+            if(req.body.password ===req.body.confirm) {
+                user.password = await bcrypt.hash(req.body.password, 10)
+                user.resetToken = undefined
+                user.resetDate = undefined
+                await user.save()
+                req.session.destroy()
+                res.redirect('/entry/login')
+            }else {
+                req.session.passwordErr = true
+                res.redirect(`/entry/password/${user.resetToken}`)
+            }
+        }else{
+            req.flash('loginError', 'Время действия ссылки истекло')
+            res.redirect('/entry/login')
+        }
     }catch(err){
         console.log(err)
     }
