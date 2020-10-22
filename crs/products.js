@@ -7,6 +7,7 @@ router.get('/',async (req, res) => {
     res.render('products',{
         title: 'Продукты',
         isProducts: true,
+        userId: req.user ? req.user._id.toString() : null,
         product
     })
 })
@@ -15,6 +16,8 @@ router.get('/:id/edit', closedPage,async (req, res)=>{
         return res.redirect('/')
     }
     const product = await Product.findById(req.params.id).lean()
+    if(product.userId.toString() !== req.user._id.toString())
+        res.redirect('/products')
     res.render('productEdit',{
         title:`Редактировать ${product.title}`,
         product
@@ -23,12 +26,18 @@ router.get('/:id/edit', closedPage,async (req, res)=>{
 router.post('/edit', closedPage,async (req, res)=>{
     const {id} =req.body
     delete req.body.id
+    const product = await Product.findById(id).lean()
+    if(product.userId.toString() !== req.user._id.toString())
+        res.redirect('/products')
     await Product.findByIdAndUpdate(id, req.body)
     res.redirect('/products')
 })
 router.post('/remove', closedPage,async (req, res)=> {
     try {
-        await Product.deleteOne({_id: req.body.id})
+        await Product.deleteOne({
+            _id: req.body.id,
+            userId: req.user._id
+        })
         res.redirect('/products')
     } catch (arr) {
         console.log(err)
