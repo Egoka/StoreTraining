@@ -3,7 +3,7 @@
 {{#if product.length}}
     {{#each product}}
     <div class="row">
-        <div class="col s6 offset-s3">
+        <div class="col s8 offset-s3">
             <div class="card">
                 <div class="card-image">
                     <img src="{{img}}" alt="{{title}}">
@@ -15,7 +15,9 @@
                 <div class="card-action action-pay">
                     <a href="/products/{{_id}}" target="_blank">Посмотреть продукт</a>
                     {{#if @root.isEntry}}<!--from variables.js-->
-                        <a href="/products/{{_id}}/edit?allow=true">Редактировать</a>
+                        {{#ifeq userId @root.userId}}
+                            <a href="/products/{{_id}}/edit?allow=true">Редактировать</a>
+                        {{/ifeq}}
                         <form action="/pay/add" method="post">
                             <input type="hidden" name="id" value="{{_id}}">
                             <input type="hidden" name="_csrf" value="{{@root.csrf}}">
