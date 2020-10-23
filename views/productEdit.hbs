@@ -1,5 +1,8 @@
 <h1>Отредактируйте {{product.title}}</h1>
 <a href="/">Начальная страница</a>
+{{#if error}}
+    <p class="alert">{{error}}</p>
+{{/if}}
 <form action="/products/edit" method="post">
     <div class="input-field">
         <input id="title" name="title" type="text" class="validate" required value="{{product.title}}">

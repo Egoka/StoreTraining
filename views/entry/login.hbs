@@ -10,51 +10,39 @@
             <h3>Войти в магазин</h3>
             <form action="/entry/login" method="post">
                 <div class="input-field">
-                    {{#if emailError}}
-                        <input id="email" name="email" type="email" class="validate invalid" required>
-                        <label for="email">Email</label>
-                        <span class="helper-text" data-error="Не верный email"></span>
-                    {{else}}
-                        <input id="email" name="email" type="email" class="validate" required>
-                        <label for="email">Email</label>
-                        <span class="helper-text" data-error="Email"></span>
-                    {{/if}}
+                    {{#if loginEmailError}}<input id="email" name="email" type="email" class="validate invalid" value="{{email}}" required>
+                    {{else}}<input id="email" name="email" type="email" class="validate" value="{{email}}" required>{{/if}}
+                    <label for="email">Email</label>
+                    {{#if loginEmailError}}<span class="helper-text" data-error="{{loginEmailError}}"></span>
+                    {{else}}<span class="helper-text" data-error="email"></span>{{/if}}
                 </div>
                 <div class="input-field">
-                    {{#if passwordError}}
-                        <input id="password" name="password" type="password" class="validate invalid" required>
-                        <label for="password">Пароль</label>
-                        <span class="helper-text" data-error="Не верный пароль"></span>
-                    {{else}}
-                        <input id="password" name="password" type="password" class="validate" required>
-                        <label for="password">Пароль</label>
-                        <span class="helper-text" data-error="password"></span>
-                    {{/if}}
+                    {{#if loginPasswordError}}<input id="password" name="password" type="password" class="validate invalid" required>
+                    {{else}}<input id="password" name="password" type="password" class="validate" required>{{/if}}
+                    <label for="password">Пароль</label>
+                    {{#if loginPasswordError}}<span class="helper-text" data-error="Не верный пароль"></span>
+                    {{else}}<span class="helper-text" data-error="password"></span>{{/if}}
                 </div>
-                {{#if passwordError}}
+                {{#if loginPasswordError}}
                     <p><a href="/entry/reset">Сбросить пароль</a></p>
                 {{/if}}
                 <input type="hidden" name="_csrf" value="{{csrf}}">
-                <button class="btn btn-primary"type="submit">Войти</button>
+                <button class="btn btn-primary" type="submit">Войти</button>
             </form>
         </div>
         <div id="registration" class="col s6 offset-s3">
             <h3>Зарегистрироваться</h3>
             <form action="/entry/registration" method="post">
                 <div class="input-field">
-                    <input id="reg-name" name="name" type="text" required>
+                    <input id="reg-name" name="name" type="text" value="{{name}}" required>
                     <label for="reg-name">Имя</label>
                 </div>
                 <div class="input-field">
-                    {{#if emailErr}}
-                        <input id="reg-email" name="email" type="email" class="validate invalid" required>
-                        <label for="reg-email">Email</label>
-                        <span class="helper-text" data-error="Такой email уже зарегистрирован"></span>
-                    {{else}}
-                        <input id="reg-email" name="email" type="email" class="validate" required>
-                        <label for="reg-email">Email</label>
-                        <span class="helper-text" data-error="Email"></span>
-                    {{/if}}
+                    {{#if registerEmailError}}<input id="reg-email" name="email" type="email" class="validate invalid" value="{{email}}" required>
+                    {{else}}<input id="reg-email" name="email" type="email" class="validate" value="{{email}}" required>{{/if}}
+                    <label for="reg-email">Email</label>
+                    {{#if registerEmailError}}<span class="helper-text" data-error="{{registerEmailError}}"></span>
+                    {{else}}<span class="helper-text" data-error="Email"></span>{{/if}}
                 </div>
                 <div class="input-field">
                     <input id="reg-password" name="password" type="password" class="validate" required>
@@ -62,15 +50,11 @@
                     <span class="helper-text" data-error="password"></span>
                 </div>
                 <div class="input-field">
-                    {{#if passwordErr}}
-                        <input id="confirm" name="confirm" type="password" class="validate invalid" required>
-                        <label for="confirm">Пароль еще раз</label>
-                        <span class="helper-text" data-error="Пароль не повторился"></span>
-                    {{else}}
-                        <input id="confirm" name="confirm" type="password" class="validate" required>
-                        <label for="confirm">Пароль еще раз</label>
-                        <span class="helper-text" data-error="password"></span>
-                    {{/if}}
+                    {{#if registerPasswordError}}<input id="confirm" name="confirm" type="password" class="validate invalid" required>
+                    {{else}}<input id="confirm" name="confirm" type="password" class="validate" required>{{/if}}
+                    <label for="confirm">Пароль еще раз</label>
+                    {{#if registerPasswordError}}<span class="helper-text" data-error="{{registerPasswordError}}"></span>
+                    {{else}}<span class="helper-text" data-error="password"></span>{{/if}}
                 </div>
                 <input type="hidden" name="_csrf" value="{{csrf}}">
                 <button class="btn btn-primary"type="submit">Зарегистрироваться</button>

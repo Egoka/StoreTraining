@@ -3,21 +3,17 @@
         {{#if error}}
         <p class="alert">{{error}}</p>
         {{/if}}
-        {{#if emailErr}}
-            <h3>Вы уже зарегестрированы</h3>
+        {{#if registerEmailError}}
+            <h4>{{registerEmailError}}</h4>
         {{/if}}
-            <h3>Востановите пароль по почте.</h3>
+        <h3>Востановите пароль по почте</h3>
         <form action="/entry/reset" method="post">
             <div class="input-field">
-                {{#if emailError}}
-                    <input id="email" name="email" type="email" class="validate invalid" required>
-                    <label for="email">Email</label>
-                    <span class="helper-text" data-error="Не верный email"></span>
-                {{else}}
-                    <input id="email" name="email" type="email" class="validate" required>
-                    <label for="email">Email</label>
-                    <span class="helper-text" data-error="Email"></span>
-                {{/if}}
+                {{#if loginEmailError}}<input id="email" name="email" type="email" class="validate invalid" value="{{email}}" required>
+                {{else}}<input id="email" name="email" type="email" class="validate" value="{{email}}" required>{{/if}}
+                <label for="email">Email</label>
+                {{#if loginEmailError}}<span class="helper-text" data-error="{{loginEmailError}}"></span>
+                {{else}}<span class="helper-text" data-error="Email"></span>{{/if}}
             </div>
             <input type="hidden" name="_csrf" value="{{csrf}}">
             <button class="btn btn-primary"type="submit">Сбросить</button>

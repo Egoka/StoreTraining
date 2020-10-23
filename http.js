@@ -1,9 +1,5 @@
 const express = require('express')
 const mongoose = require('mongoose')
-const {URL_LOGIN_MONGO_DB:URL,
-       KEY_ENCRYPTION:keyEncry,
-       SEND_GRID_API_KEY:sendGrid
-      } = require('./password')
 const exps = require('express-handlebars')
 const path = require('path')
 const csrf = require('csurf')
@@ -11,7 +7,6 @@ const flash = require('connect-flash')
 const session =require('express-session')
 const MongoSession = require('connect-mongodb-session')(session)
 /////////////////////////////////////////////////
-const User = require('./models/user')
 const start = require('./crs/start')
 const products = require('./crs/products')
 const personalArea = require('./crs/personalArea')
@@ -20,6 +15,10 @@ const orders = require('./crs/orders')
 const login = require('./crs/entry')
 const varMid = require('./middleware/variables')
 const userMid = require('./middleware/userData')
+const error404 = require('./middleware/error404')
+const {URL_LOGIN_MONGO_DB:URL,
+    KEY_ENCRYPTION:keyEncry
+} = require('./password')
 /////////////////////////////////////////////////
 const app = express()
 const hbs = exps.create({
@@ -57,6 +56,7 @@ app.use('/personalArea',personalArea)
 app.use('/pay',pay)
 app.use('/orders',orders)
 app.use('/entry',login)
+app.use(error404)
 /////////////////////////////////////////////////
 const PORT = process.env.PORT || 3000
 async function startProgram(){
