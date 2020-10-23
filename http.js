@@ -15,6 +15,7 @@ const orders = require('./crs/orders')
 const login = require('./crs/entry')
 const varMid = require('./middleware/variables')
 const userMid = require('./middleware/userData')
+const error404 = require('./middleware/error404')
 const {URL_LOGIN_MONGO_DB:URL,
     KEY_ENCRYPTION:keyEncry
 } = require('./password')
@@ -55,6 +56,7 @@ app.use('/personalArea',personalArea)
 app.use('/pay',pay)
 app.use('/orders',orders)
 app.use('/entry',login)
+app.use(error404)
 /////////////////////////////////////////////////
 const PORT = process.env.PORT || 3000
 async function startProgram(){
