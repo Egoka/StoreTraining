@@ -1,9 +1,5 @@
 const express = require('express')
 const mongoose = require('mongoose')
-const {URL_LOGIN_MONGO_DB:URL,
-       KEY_ENCRYPTION:keyEncry,
-       SEND_GRID_API_KEY:sendGrid
-      } = require('./password')
 const exps = require('express-handlebars')
 const path = require('path')
 const csrf = require('csurf')
@@ -11,7 +7,6 @@ const flash = require('connect-flash')
 const session =require('express-session')
 const MongoSession = require('connect-mongodb-session')(session)
 /////////////////////////////////////////////////
-const User = require('./models/user')
 const start = require('./crs/start')
 const products = require('./crs/products')
 const personalArea = require('./crs/personalArea')
@@ -20,6 +15,9 @@ const orders = require('./crs/orders')
 const login = require('./crs/entry')
 const varMid = require('./middleware/variables')
 const userMid = require('./middleware/userData')
+const {URL_LOGIN_MONGO_DB:URL,
+    KEY_ENCRYPTION:keyEncry
+} = require('./password')
 /////////////////////////////////////////////////
 const app = express()
 const hbs = exps.create({
