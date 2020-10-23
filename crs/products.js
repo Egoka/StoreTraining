@@ -1,6 +1,8 @@
 const {Router} = require('express')
+const {validationResult} = require('express-validator')
 const Product = require('../models/product')
 const closedPage = require('../middleware/pageAccess')
+const {productsValidators} = require('../utils/validators')
 const router = Router()
 router.get('/',async (req, res) => {
     const product = await Product.find().lean()
@@ -23,8 +25,21 @@ router.get('/:id/edit', closedPage,async (req, res)=>{
         product
     })
 })
-router.post('/edit', closedPage,async (req, res)=>{
+router.post('/edit', closedPage,productsValidators,async (req, res)=>{
+    const error = validationResult(req)
     const {id} =req.body
+    if(!error.isEmpty()){
+        const product = await Product.findById(req.params.id).lean()
+        return res.render('productEdit',{
+            title:`Редактировать продукт`,
+            error: error.array()[0].msg,
+            product:{
+                title:req.body.title,
+                price:req.body.price,
+                img: req.body.img
+            }
+        })
+    }
     delete req.body.id
     const product = await Product.findById(id).lean()
     if(product.userId.toString() !== req.user._id.toString())
