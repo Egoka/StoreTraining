@@ -1,4 +1,4 @@
-const {EMAIL_FROM,URL_APPLICATION} = require('../password')
+const {EMAIL_FROM,URL_APPLICATION} = require('../keys/password')
 module.exports = function(name, email){
     return {
         to: email,

@@ -20,7 +20,7 @@ const error404 = require('./middleware/error404')
 const fileMiddleware = require('./middleware/fileSaveDB')
 const {URL_LOGIN_MONGO_DB:URL,
     KEY_ENCRYPTION:keyEncry
-} = require('./password')
+} = require('./keys/password-DEV')
 /////////////////////////////////////////////////
 const app = express()
 const hbs = exps.create({
