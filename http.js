@@ -5,6 +5,7 @@ const path = require('path')
 const csrf = require('csurf')
 const flash = require('connect-flash')
 const session =require('express-session')
+const compression = require('compression')
 const MongoSession = require('connect-mongodb-session')(session)
 /////////////////////////////////////////////////
 const start = require('./crs/start')
@@ -51,6 +52,7 @@ app.use(session({
 app.use(fileMiddleware.single('avatar'))
 app.use(csrf())
 app.use(flash())
+app.use(compression())
 app.use(varMid)
 app.use(userMid)
 //paeg announcement
