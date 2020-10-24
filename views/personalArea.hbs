@@ -1,11 +1,14 @@
 <h1>Личный кабинет</h1>
 <div class="row">
     <div class="col s6">
-        <img class="avatar" src="https://.jpg" alt="">
-        <p>Аватара нет</p>
+        {{#if user.avatarURL}}
+            <img class="avatar" src="..\\{{user.avatarURL}}" alt="avatar-{{user.name}}">
+        {{else}}
+            <img class="avatar" src="https://1cau.ru/images/about/artem.jpg" alt="avatar">
+        {{/if}}
     </div>
     <div class="col s6">
-        <form action="/personalArea" method="post">
+        <form action="/personalArea" method="post" enctype="multipart/form-data">
             <p>Ваш email: <strong>{{user.email}}</strong></p>
             <div class="input-field">
                 <input id="name" name="name" type="text" class="validate" required value="{{user.name}}">
@@ -13,13 +16,8 @@
                 <span class="helper-text" data-error="Введите имя" ></span>
             </div>
             <div class="file-field input-field">
-                <div class="btn">
-                    <span>Аватар</span>
-                    <input type="file" name="avatar">
-                </div>
-                <div class="file-path-wrapper">
-                    <input class="file-path validate" type="text" placeholder="Загрузите свою фотографию">
-                </div>
+                <input type="file" name="avatar">
+                <input class="file-path validate" type="text" placeholder="Загрузите свою фотографию">
             </div>
             <input type="hidden" name="_csrf" value="{{csrf}}">
             <button type="submit" class="btn-large orange">Сохранить</button>

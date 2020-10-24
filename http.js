@@ -17,6 +17,7 @@ const login = require('./crs/entry')
 const varMid = require('./middleware/variables')
 const userMid = require('./middleware/userData')
 const error404 = require('./middleware/error404')
+const fileMiddleware = require('./middleware/fileSaveDB')
 const {URL_LOGIN_MONGO_DB:URL,
     KEY_ENCRYPTION:keyEncry
 } = require('./password')
@@ -38,6 +39,7 @@ app.set('view engine', 'hbs')
 app.set('views', 'views')
 /////////////////////////////////////////////////
 app.use(express.static(path.join(__dirname,'styles')))
+app.use('/saveImage',express.static(path.join(__dirname,'saveImage')))
 app.use(express.urlencoded({extended:true}))
 //session setup
 app.use(session({
@@ -46,6 +48,7 @@ app.use(session({
     saveUninitialized: false,
     store: storeSession
 }))
+app.use(fileMiddleware.single('avatar'))
 app.use(csrf())
 app.use(flash())
 app.use(varMid)
