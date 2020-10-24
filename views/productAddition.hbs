@@ -1,0 +1,24 @@
+<h1>Добавьте новый продукт</h1>
+<a href="/">Начальная страница</a>
+{{#if error}}
+    <p class="alert">{{error}}</p>
+{{/if}}
+<form action="/productAddition" method="post">
+    <div class="input-field">
+        <input id="title" name="title" type="text" class="validate" value="{{date.title}}" required>
+        <label for="title">Название продукта</label>
+        <span class="helper-text" data-error="Введите название" ></span>
+    </div>
+    <div class="input-field">
+        <input id="price" name="price" type="number" class="validate" value="{{date.price}}" required min="1">
+        <label for="price">Стоимость продукта</label>
+        <span class="helper-text" data-error="Введите стоимость"></span>
+    </div>
+    <div class="input-field">
+        <input id="img" name="img" type="text" class="validate" value="{{date.img}}" required>
+        <label for="img">URL картинки</label>
+        <span class="helper-text" data-error="Введите URL"></span>
+    </div>
+    <input type="hidden" name="_csrf" value="{{csrf}}">
+    <button class="btn btn-primary">Добавить продукт</button>
+</form>

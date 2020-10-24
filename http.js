@@ -9,6 +9,7 @@ const MongoSession = require('connect-mongodb-session')(session)
 /////////////////////////////////////////////////
 const start = require('./crs/start')
 const products = require('./crs/products')
+const productAddition = require('./crs/productAddition')
 const personalArea = require('./crs/personalArea')
 const pay = require('./crs/pay')
 const orders = require('./crs/orders')
@@ -16,6 +17,7 @@ const login = require('./crs/entry')
 const varMid = require('./middleware/variables')
 const userMid = require('./middleware/userData')
 const error404 = require('./middleware/error404')
+const fileMiddleware = require('./middleware/fileSaveDB')
 const {URL_LOGIN_MONGO_DB:URL,
     KEY_ENCRYPTION:keyEncry
 } = require('./password')
@@ -37,6 +39,7 @@ app.set('view engine', 'hbs')
 app.set('views', 'views')
 /////////////////////////////////////////////////
 app.use(express.static(path.join(__dirname,'styles')))
+app.use('/saveImage',express.static(path.join(__dirname,'saveImage')))
 app.use(express.urlencoded({extended:true}))
 //session setup
 app.use(session({
@@ -45,6 +48,7 @@ app.use(session({
     saveUninitialized: false,
     store: storeSession
 }))
+app.use(fileMiddleware.single('avatar'))
 app.use(csrf())
 app.use(flash())
 app.use(varMid)
@@ -52,6 +56,7 @@ app.use(userMid)
 //paeg announcement
 app.use('/',start)
 app.use('/products',products)
+app.use('/productAddition',productAddition)
 app.use('/personalArea',personalArea)
 app.use('/pay',pay)
 app.use('/orders',orders)

@@ -13,10 +13,15 @@
                 <li><a href="/products">Продукты</a></li>
             {{/if}}
             {{#if isEntry}}<!--from variables.js-->
-                {{#if isArea}}
-                    <li class="active"><a href="/personalArea">Личный кабинет</a></li>
+                {{#if isAdd}}
+                    <li class="active"><a href="/productAddition">Новый продукт</a></li>
                 {{else}}
-                    <li><a href="/personalArea">Личный кабинет</a></li>
+                    <li><a href="/productAddition">Новый продукт</a></li>
+                {{/if}}
+                {{#if isArea}}
+                    <li class="active"><a href="/personalArea">Профиль</a></li>
+                {{else}}
+                    <li><a href="/personalArea">Профиль</a></li>
                 {{/if}}
                 {{#if isPay}}
                     <li class="active"><a href="/pay">Корзина</a></li>
