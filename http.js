@@ -21,7 +21,7 @@ const error404 = require('./middleware/error404')
 const fileMiddleware = require('./middleware/fileSaveDB')
 const {URL_LOGIN_MONGO_DB:URL,
     KEY_ENCRYPTION:keyEncry
-} = require('./keys/password-DEV')
+} = require('./keys/password')
 /////////////////////////////////////////////////
 const app = express()
 const hbs = exps.create({
@@ -72,7 +72,7 @@ async function startProgram(){
             useNewUrlParser: true,
             useUnifiedTopology: true,
             useFindAndModify: false})
-        app.listen(3000, () => {
+        app.listen(PORT, () => {
             console.log(`Server is running on port ${PORT}`)
         })
     }catch(err){
