@@ -1,4 +1,5 @@
 /node_modules/
-/password.js
+/keys/password-DEV.js
 /package-lock.json
 /saveImage/
+/keys/password-PROD.js
