@@ -21,6 +21,9 @@ const user = new Schema({
     resetDate:{
         type: Date
     },
+    authoriz:{
+        type: Boolean
+    },
     basket:{
         items:[
             {
