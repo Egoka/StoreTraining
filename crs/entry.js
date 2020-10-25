@@ -30,6 +30,10 @@ router.post('/login',async (req, res) => {
         const {email,password} = req.body
         const candidate = await User.findOne({email})
         if(candidate){
+            if(candidate.authoriz === false){
+            req.flash('loginEmailError', 'Подтвердите аккаунт через письмо из почты')
+            return res.redirect('/entry/login#login')
+            }
             if(await bcrypt.compare(password,candidate.password)){
                 req.session.user = candidate
                 req.session.isAuthenticated = true
@@ -44,6 +48,25 @@ router.post('/login',async (req, res) => {
             }
         }else{
             req.flash('loginEmailError', 'Неверный email')
+            res.redirect('/entry/login#login')
+        }
+    }catch (err) {
+        console.log(err)
+    }
+})
+router.get('/login/:token', async(req,res)=>{
+    if(!req.params.token) res.redirect('/entry/login')
+    try{
+        const user = await User.findOne({
+            resetToken: req.params.token
+        })
+        if(!user) {
+            req.flash('registerEmailError', 'Вы не зарегестрированы')
+            res.redirect('/entry/login#registration')
+        }else{
+            user.resetToken = undefined
+            user.authoriz = undefined
+            await user.save()
             res.redirect('/entry/login#login')
         }
     }catch (err) {
@@ -74,12 +97,23 @@ router.post('/registration', body('email').isEmail(), async (req, res)=>{
                 req.flash('registerPasswordError', 'Пароль не совпадает')
                 res.redirect('/entry/login#registration')
             }else{
-                const user = new User({
-                    name, email, password:await bcrypt.hash(password,10), basket:{items:[]}
+                crypto.randomBytes(32,async(err, buffer)=>{
+                    if (err) {
+                        req.flash('error','Что-то пошло не так, повторите попытку')
+                        return res.redirect('/entry/reset')
+                    }
+                    const token = buffer.toString('hex')
+                    const user = new User({
+                        name,email,
+                        resetToken:token,
+                        authoriz: false,
+                        password:await bcrypt.hash(password,10),
+                        basket:{items:[]}
+                    })
+                    await user.save()
+                    res.redirect('/entry/login#login')
+                    await transporter.sendMail(regEmail(name, email, token))
                 })
-                await user.save()
-                res.redirect('/entry/login#login')
-                await transporter.sendMail(regEmail(name, email))
             }
         }
     }catch(err){
